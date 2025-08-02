@@ -1,16 +1,18 @@
 import gradio as gr
-import pandas as pd
 
-def process_text(brand_theme, num_days):
-    return pd.DataFrame({'Brand Theme': [brand_theme], 'Number of Days': [num_days]})
+import agent
 
 iface = gr.Interface(
-    fn=process_text,
+    fn=agent.run_agent,
     inputs=[
         gr.Textbox(label="Brand Theme"),
-        gr.Number(label="Number of Days")
+        gr.Number(label="Number of Days", value=30)
     ],
-    outputs=gr.Dataframe(label="Content Calendar")
+    outputs=[
+        gr.Dataframe(label="Content Calendar"),
+        gr.DownloadButton(label="Download CSV")
+    ],
+    title="Content Calendar Generator",
 )
 
 iface.launch()
